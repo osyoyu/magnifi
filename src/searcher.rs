@@ -12,7 +12,6 @@ pub fn search(query: String) -> Vec<(Score, Document)> {
 
     let index = Index::open_in_dir(PathBuf::from(index_path)).expect(format!("Failed to open index in {}", index_path).as_str());
     index.tokenizers().register("tinyseg", TinySegmenterTokenizer {});
-    let schema = index.schema();
 
     run_search(index, query)
 }
@@ -40,7 +39,7 @@ fn run_search(index: Index, query: String) -> Vec<(Score, Document)> {
     let query = query_parser.parse_query(&query).expect("Query parsing failed");
     let searcher = index.searcher();
 
-    let (top_docs, doc_count): (Vec<(Score, DocAddress)>, usize) = searcher.search(&query, &(collector::TopDocs::with_limit(10), collector::Count)).unwrap();
+    let (top_docs, _doc_count): (Vec<(Score, DocAddress)>, usize) = searcher.search(&query, &(collector::TopDocs::with_limit(10), collector::Count)).unwrap();
 
     let mut docs: Vec<(Score, Document)> = vec![];
     for doc_hit in top_docs {
