@@ -1,7 +1,10 @@
 use clap::{Arg, App};
 
-mod serve;
+mod protos;
 mod searcher;
+
+mod serve;
+mod grpc_server;
 
 fn main() {
     let matches =
@@ -31,5 +34,6 @@ fn main() {
     let host = matches.value_of("bind_addr").unwrap_or("127.0.0.1");
     let bind_addr = format!("{}:{}", host, port);
 
-    serve::serve(bind_addr);
+    // serve::serve(bind_addr);
+    grpc_server::serve();
 }
