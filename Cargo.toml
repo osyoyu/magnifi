@@ -8,3 +8,6 @@ edition = "2018"
 clap = "2.32"
 tantivy = "0.8"
 tantivy-tokenizer-tiny-segmenter = "0.1"
+
+actix = "0.7"
+actix-web = "0.7"
