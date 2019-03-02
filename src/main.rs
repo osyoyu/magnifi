@@ -1,7 +1,8 @@
 use clap::{Arg, App};
 
 mod protos;
-mod searcher;
+mod magnifi;
+mod grpc_handler;
 mod grpc_server;
 
 fn main() {
@@ -31,5 +32,9 @@ fn main() {
     let host = matches.value_of("bind_addr").unwrap_or("127.0.0.1").to_string();
     let port = matches.value_of("port").unwrap_or("8192").parse::<u16>().unwrap();
 
-    grpc_server::serve(host, port);
+    let magnifi = magnifi::MagnifiApp {};
+    let grpc_handler = grpc_handler::GrpcHandler {
+        magnifi: magnifi
+    };
+    grpc_server::serve(grpc_handler, host, port);
 }
