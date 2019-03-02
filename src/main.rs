@@ -2,8 +2,6 @@ use clap::{Arg, App};
 
 mod protos;
 mod searcher;
-
-mod serve;
 mod grpc_server;
 
 fn main() {
