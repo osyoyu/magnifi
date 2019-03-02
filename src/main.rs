@@ -30,10 +30,8 @@ fn main() {
                 .required(false))
             .get_matches();
 
-    let port = matches.value_of("port").unwrap_or("8192");
-    let host = matches.value_of("bind_addr").unwrap_or("127.0.0.1");
-    let bind_addr = format!("{}:{}", host, port);
+    let host = matches.value_of("bind_addr").unwrap_or("127.0.0.1").to_string();
+    let port = matches.value_of("port").unwrap_or("8192").parse::<u16>().unwrap();
 
-    // serve::serve(bind_addr);
-    grpc_server::serve();
+    grpc_server::serve(host, port);
 }

@@ -1,2 +1,2 @@
-pub mod helloworld;
-pub mod helloworld_grpc;
+pub mod magnifi;
+pub mod magnifi_grpc;

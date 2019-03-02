@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+service Magnifi {
+  rpc Search(Query) returns (SearchReply);
+}
+
+message Query {
+  string body = 1;
+}
+
+message SearchReply {
+  repeated Document document = 1;
+}
+
+
+message Document {
+  int32 doc_id = 1;
+  string body = 2;
+}
