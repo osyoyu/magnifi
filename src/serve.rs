@@ -7,7 +7,7 @@ use crate::searcher;
 pub fn serve(bind_addr: String) {
     let sys = actix::System::new("magnifi");
 
-    let addr = server::new(||
+    let _addr = server::new(||
         App::new()
             .middleware(Logger::default())
             .resource("/search", |r|
@@ -22,10 +22,22 @@ pub fn serve(bind_addr: String) {
 }
 
 fn search(req: &HttpRequest) -> Result<HttpResponse> {
-    let result = searcher::search();
+    let params = req.query();
+    let query = params.get("q");
 
-    Ok(HttpResponse::build(StatusCode::OK)
-        .content_type("application/json")
-        .body(result)
-    )
+    match query {
+        Some(q) => {
+            let result = searcher::search(q.to_string());
+            Ok(HttpResponse::build(StatusCode::OK)
+                .content_type("application/json")
+                .body(result)
+            )
+        },
+        None => {
+            Ok(HttpResponse::build(StatusCode::BAD_REQUEST)
+                .content_type("application/json")
+                .body("{}")
+            )
+        },
+    }
 }

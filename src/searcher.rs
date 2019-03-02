@@ -7,14 +7,14 @@ use tantivy::collector;
 
 use tantivy_tokenizer_tiny_segmenter::tokenizer::TinySegmenterTokenizer;
 
-pub fn search() -> String {
+pub fn search(query: String) -> String {
     let index_path = "../tantivy-jawp2";
 
     let index = Index::open_in_dir(PathBuf::from(index_path)).expect(format!("Failed to open index in {}", index_path).as_str());
     index.tokenizers().register("tinyseg", TinySegmenterTokenizer {});
     let schema = index.schema();
 
-    let top_docs = run_search(index, String::from("foo"));
+    let top_docs = run_search(index, query);
     // for doc in top_docs {
     //     println!("{}", schema.to_json(&doc.1));
     // }
