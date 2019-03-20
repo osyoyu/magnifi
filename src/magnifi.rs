@@ -39,7 +39,8 @@ impl MagnifiApp {
         let query_parser = QueryParser::new(schema.clone(), default_fields, index.tokenizers().clone());
 
         let query = query_parser.parse_query(&query).expect("Query parsing failed");
-        let searcher = index.searcher();
+        let reader = index.reader().expect("Couldn't open reader");
+        let searcher = reader.searcher();
 
         let (top_docs, _doc_count): (Vec<(Score, DocAddress)>, usize) = searcher.search(&query, &(collector::TopDocs::with_limit(10), collector::Count)).unwrap();
 
